@@ -1,43 +1,41 @@
-exports.getResults = function(search, callback, source) {
+exports.getResults = function (query, callback, source, search) {
+  var request = require('request')
+  var crypto = require('crypto-js')
+  var config = require('../config.js')
+  var aparse = require('../parsers/summon-parser.js').parse
+  var fullQuery = search['filters'] + query
 
-  'use scrict';
-  var request = require('request');
-  var crypto = require('crypto-js');
-  var config = require("../config.js");
+  var date = new Date().toUTCString()
+  var message = config[source]['response'] + '\n' + date + '\n' + config[source]['url'] + '\n' + config[source]['uri'] + '\n' + fullQuery + '\n'
 
-  if (source === "books") {
-    search = "s.fvf=ContentType,Book,false&s.light=true&s.q=" + search;
-  } else if (source === "articles") {
-    search = "s.fvf=ContentType,Journal Article,false&s.light=true&s.q=" + search;
-  } else {
-    search = "s.light=true&s.q=" + search;
-  }
+  var hash = crypto.enc.Base64.stringify(crypto.HmacSHA1(message, config[source]['key']))
 
-  var date = new Date().toUTCString();
-  var message = config.summonResponse + "\n" + date + "\n" + config.summonUrl + "\n" + config.summonUri + "\n" + search + "\n"
-  
-  var hash = crypto.enc.Base64.stringify(crypto.HmacSHA1(message, config.summonKey));
-
-  var authentication = config.summonAccessId + hash;
+  var authentication = config[source]['accessId'] + hash
 
   var options = {
-    url: 'http://' + config.summonUrl + config.summonUri + '?' + search,
+    url: 'http://' + config[source]['url'] + config[source]['uri'] + '?' + fullQuery,
     headers: {
-      'Host': config.summonUrl,
-      'Accept': config.summonResponse,
+      'Host': config[source]['url'],
+      'Accept': config[source]['response'],
       'x-summon-date': date,
       'Authorization': authentication
     },
     json: true
-  };
+  }
 
   request(options, function (error, response, body) {
-    if (!error && response.statusCode == 200) {
-      console.log(response.statusCode);
-      callback(null, body.documents);  
+    if (!error && response.statusCode === 200) {
+      console.log(response.statusCode)
+      var parsed = aparse(body.documents)
+      parsed.push({'resultNum': body.recordCount,
+        'query': query,
+        'resultUrl': search['searchUrl'] + query,
+        'notEntry': 1,
+        'searchTitle': search['title']})
+      callback(null, parsed)
     } else {
-      console.log(response.statusCode);
-      console.log(response.headers);
+      console.log(response.statusCode)
+      console.log(response.headers)
     }
   })
 }
