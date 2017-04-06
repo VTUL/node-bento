@@ -53,7 +53,7 @@ function processImage (imageArraySmall, imageArrayMedium, imageArrayLarge) {
 module.exports = {
   parse: function (data, search) {
     if (data.length === 0) {
-      return [{'results': false}]
+      return false
     } else {
       var parsedArray = []
       for (var x = 0; x < search.resultTotal; x++) {
