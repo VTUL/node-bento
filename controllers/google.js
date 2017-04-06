@@ -9,8 +9,14 @@ exports.getResults = function (query, callback, source, search) {
     if (!error && response.statusCode === 200) {
       console.log(response.statusCode)
       var parsed = aparse(JSON.parse(body).items, search)
-      parsed.push({'query': query, 'searchTitle': search['title']})
-      callback(null, parsed)
+      var data = {
+        'records': parsed,
+        'query': query,
+        'searchTitle': search['title'],
+        'resultNum': 10,
+        'resultUrl': ''
+      }
+      callback(null, data)
     } else {
       console.log(response.statusCode)
       console.log(response.headers)

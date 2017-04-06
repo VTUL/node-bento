@@ -27,12 +27,15 @@ exports.getResults = function (query, callback, source, search) {
     if (!error && response.statusCode === 200) {
       console.log(response.statusCode)
       var parsed = aparse(body.documents, search)
-      parsed.push({'resultNum': body.recordCount,
+      var data = {
+        'records': parsed,
+        'resultNum': body.recordCount,
         'query': query,
         'resultUrl': search['searchUrl'] + query,
         'notEntry': 1,
-        'searchTitle': search['title']})
-      callback(null, parsed)
+        'searchTitle': search['title']
+      }
+      callback(null, data)
     } else {
       console.log(response.statusCode)
       console.log(response.headers)

@@ -1,50 +1,79 @@
 var config = {
   'google': {
-    'enabled': true,
     'key': '',
-    'cx': '',
     'fields': 'items(title,link)',
     'url': 'https://www.googleapis.com/customsearch/v1?',
-    'endpoint': '',
-    'title': 'Library Website'
+    'searches': [
+      {
+        'enabled': true,
+        'endpoint': 'library',
+        'title': 'Library Website',
+        'cx': '',
+        'resultTotal': 5
+      },
+      {
+        'enabled': true,
+        'endpoint': '',
+        'title': '',
+        'cx': '',
+        'resultTotal': 5
+      }
+    ]
   },
   'summon': {
-    'enabled': true,
     'key': '',
     'accessId': '',
     'response': 'application/json',
     'url': 'api.summon.serialssolutions.com',
     'uri': '/2.0.0/search',
-    'endpoint': 'books',
-    'title': 'Books & Media'
+    'searches': [
+      {
+        'enabled': true,
+        'endpoint': 'books',
+        'title': 'Books & Media',
+        'filters': 's.fvf=ContentType,Book,false&s.light=true&s.q=',
+        'searchUrl': '',
+        'resultTotal': 5
+      },
+      {
+        'enabled': true,
+        'endpoint': 'articles',
+        'title': 'Articles',
+        'filters': 's.fvf=ContentType,Journal Article,false&s.light=true&s.q=',
+        'searchUrl': '',
+        'resultTotal': 5
+      },
+      {
+        'enabled': true,
+        'endpoint': 'journals',
+        'title': 'Journals',
+        'filters': 's.fvf=ContentType,Journal,false&s.light=true&s.q=',
+        'searchUrl': '',
+        'resultTotal': 5
+      },
+      {
+        'enabled': true,
+        'endpoint': 'databases',
+        'title': 'Databases',
+        'filters': 's.fvf=ContentType,Database,false&s.light=true&s.q=',
+        'searchUrl': '',
+        'resultTotal': 5
+      }
+    ]
   },
   'libguides': {
-    'enabled': true,
     'key': '',
     'siteId': '',
     'url': 'https://lgapi.libapps.com/1.1/guides?',
-    'endpoint': 'libguides',
-    'title': 'Research Guides'
+    'searches': [
+      {
+        'enabled': true,
+        'endpoint': 'libguides',
+        'title': 'Research Guides',
+        'resultTotal': 5
+      }
+    ]
   }
 }
-
-// LibGuides configuration
-config.libguidesUrl = 'https://lgapi.libapps.com/1.1/guides?'
-config.libguidesKey = ''
-config.site_id = ''
-
-// Summon configuration
-config.summonResponse = 'application/json'
-config.summonUrl = 'api.summon.serialssolutions.com'
-config.summonUri = '/2.0.0/search'
-config.summonKey = ''
-config.summonAccessId = '' // Should include the semicolon. See Summon API documentation for more info. Example "Summon test;"
-
-// Google Site Search configuration
-config.googleKey = ''
-config.cx = ''
-config.fields = 'items(title,link)'
-config.googleUrl = 'https://www.googleapis.com/customsearch/v1?'
-config.VTresearchcx = ''
 
 module.exports = config
