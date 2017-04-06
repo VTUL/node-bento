@@ -51,12 +51,12 @@ function processImage (imageArraySmall, imageArrayMedium, imageArrayLarge) {
 }
 
 module.exports = {
-  parse: function (data) {
+  parse: function (data, search) {
     if (data.length === 0) {
       return [{'results': false}]
     } else {
       var parsedArray = []
-      for (var x = 0; x < data.length; x++) {
+      for (var x = 0; x < search.resultTotal; x++) {
         parsedArray.push({
           'url': processUrl(data[x]['link']),
           'author': processAuthor(data[x]['Author']),

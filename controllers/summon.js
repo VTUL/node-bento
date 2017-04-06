@@ -26,7 +26,7 @@ exports.getResults = function (query, callback, source, search) {
   request(options, function (error, response, body) {
     if (!error && response.statusCode === 200) {
       console.log(response.statusCode)
-      var parsed = aparse(body.documents)
+      var parsed = aparse(body.documents, search)
       parsed.push({'resultNum': body.recordCount,
         'query': query,
         'resultUrl': search['searchUrl'] + query,
