@@ -16,7 +16,8 @@ module.exports = {
       return false
     } else {
       var parsedArray = []
-      for (var x = 0; x < search.resultTotal; x++) {
+      var cycles = data.length <= search.resultTotal ? data.length : search.resultTotal
+      for (var x = 0; x < cycles; x++) {
         parsedArray.push({
           'url': processUrl(data[x]['url']),
           'description': processDesc(data[x]['description']),

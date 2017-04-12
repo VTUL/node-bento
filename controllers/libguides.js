@@ -7,7 +7,6 @@ exports.getResults = function (query, callback, source, search) {
 
   request(submitUrl, function (error, response, body) {
     if (!error && response.statusCode === 200) {
-      console.log(response.statusCode)
       var parsed = aparse(JSON.parse(body), search)
       var data = {
         'records': parsed,
