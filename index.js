@@ -31,6 +31,17 @@ for (var key in config) {
   })
 }
 
+app.get('/instagram', function (req, res) {
+  var api = require('./controllers/instagram.js')
+  api.getResults(function (err, result) {
+    if (err) {
+      res.status(500).send(err)
+    } else {
+      res.status(200).send(result)
+    }
+  })
+})
+
 app.listen(3000, function () {
   console.log('App listening on port 3000')
 })
